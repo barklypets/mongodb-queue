@@ -82,12 +82,14 @@ Queue.prototype.add = function(payload, opts, callback) {
             msgs.push({
                 visible  : visible,
                 payload  : payload,
+                updated_at: new Date(Date.now())
             })
         })
     } else {
         msgs.push({
             visible  : visible,
             payload  : payload,
+            updated_at: new Date(Date.now())
         })
     }
 
@@ -111,6 +113,7 @@ Queue.prototype.get = function(opts, callback) {
         visible : { $lte : now() },
     }
     var sort = {
+        updated_at: 1,
         _id : 1
     }
     var update = {
@@ -118,6 +121,7 @@ Queue.prototype.get = function(opts, callback) {
         $set : {
             ack     : id(),
             visible : nowPlusSecs(visibility),
+            updated_at: new Date(Date.now())
         }
     }
 
